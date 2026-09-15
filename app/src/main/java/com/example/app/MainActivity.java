@@ -38,6 +38,12 @@ public class MainActivity extends AppCompatActivity {
                 nomes //Array de nomes
         );
         lv.setAdapter(adapter);
+
+        //View recebe onTouch e o onClick (que pega a view inteira, mas queremos apenas um item)
+        //setOnItemClickListener - clicar em um item da lista;
+        lv.setOnItemClickListener((parent, view, position, id) -> { //crtl +espaço
+
+        });
     }
 }
 
