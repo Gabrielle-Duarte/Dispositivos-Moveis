@@ -1,9 +1,12 @@
 package com.example.app;
 
+import static android.widget.Toast.LENGTH_LONG;
+
 import android.annotation.SuppressLint;
 import android.os.Bundle;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
+import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
@@ -42,7 +45,7 @@ public class MainActivity extends AppCompatActivity {
         //View recebe onTouch e o onClick (que pega a view inteira, mas queremos apenas um item)
         //setOnItemClickListener - clicar em um item da lista;
         lv.setOnItemClickListener((parent, view, position, id) -> { //crtl +espaço
-
+            Toast.makeText(this, nomes[position], Toast.LENGTH_LONG).show();
         });
     }
 }
@@ -58,3 +61,6 @@ public class MainActivity extends AppCompatActivity {
 //this - contexto ----- para nosso app conseguir conversa com a api, é passado uma variavel chamada context que tem biblioteca chamada skia
 //O adaptador desenha os elementos na tela e tem que passar o xml
 //Adapter (context, getView(this, xml(R), textView, nomes)
+
+//git remote add  gabi https://github.com/Gabrielle-Duarte/Dispositivos-Moveis
+//git push gabi HEAD
