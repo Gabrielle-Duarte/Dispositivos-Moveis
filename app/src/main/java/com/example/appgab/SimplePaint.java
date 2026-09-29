@@ -65,9 +65,9 @@ public class SimplePaint extends View {
     public void setColor(int color){
         //Criar nova camada de paint e path
         paintList.add(mpaint);
-        paintList.add(mpath);
-        mpaint = new Paint();
-        mpath = new Path(mpaint);
+        pathList.add(mpath);
+        mpaint = new Paint(mpaint);
+        mpath = new Path();
 
         mpaint.setColor(color);
         invalidate();
