@@ -1,5 +1,6 @@
 package com.example.app;
 
+import static android.os.Build.VERSION_CODES.R;
 import static android.widget.Toast.LENGTH_LONG;
 
 import android.annotation.SuppressLint;
@@ -13,6 +14,8 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
+
+import com.example.appgab.R;
 
 public class MainActivity extends AppCompatActivity {
 
