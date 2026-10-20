@@ -17,6 +17,8 @@ import com.example.app.R;
 
 public class MainActivity extends AppCompatActivity {
 
+    MapView mapView = findViewById()
+
     LocationManager locationManager;
     TextView textView;
 
@@ -39,6 +41,17 @@ public class MainActivity extends AppCompatActivity {
             textView.setText(l.getLatitude()+ "," +l.getLongitude());
             locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 0, location ->
                     textView.setText(location.getLatitude() + "," + location.getLongitude()));
+                    // Inicia o Mapa
+                    mapView.getController().setZoom(18);
+                    mapView.getController().setCenter(
+                            new org.osmdroid.util.GeoPoint(location.getLatitude(), location.getLongitude())
+                    );
+
+            //MapPoint Overlay
+            mapView.getOverlays().clear();
+            Marker marker = new org.osmdroid.views.overlay.Marker(mapView);
+            marker.setPosition(rg.osmdroid.util.GeoPoint(location.getLatitude(), location.getLongitude());
+            mapView.invalidate();
 
         }else{
             //Solicitar permissão em tempo de execução

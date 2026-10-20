@@ -4,7 +4,7 @@ plugins {
 
 android {
     namespace = "com.example.app"
-    compileSdk = 35
+    compileSdk = 37
 
     defaultConfig {
         applicationId = "com.example.app"
@@ -34,12 +34,10 @@ android {
 dependencies {
 
     implementation(libs.appcompat)
-    implementation(libs.material)
-    implementation(libs.activity)
     implementation(libs.constraintlayout)
+    implementation(libs.material)
     testImplementation(libs.junit)
-    androidTestImplementation(libs.ext.junit)
     androidTestImplementation(libs.espresso.core)
-    implementation("org.osmdroid:osmdroid-android:<6.1.20>")
-
+    androidTestImplementation(libs.ext.junit)
+    implementation("org.osmdroid:osmdroid-android:6.1.20")
 }
