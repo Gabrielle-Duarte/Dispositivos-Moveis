@@ -1,69 +1,63 @@
 package com.example.app;
 
-import static android.os.Build.VERSION_CODES.R;
-import static android.widget.Toast.LENGTH_LONG;
-
-import android.annotation.SuppressLint;
+import android.Manifest;
+import android.content.pm.PackageManager;
+import android.location.Location;
+import android.location.LocationManager;
 import android.os.Bundle;
-import android.widget.ArrayAdapter;
-import android.widget.ListView;
-import android.widget.Toast;
+import android.widget.TextView;
 
 import androidx.activity.EdgeToEdge;
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
-
-import com.example.appgab.R;
+import com.example.app.R;
 
 public class MainActivity extends AppCompatActivity {
 
-    String[] nomes = new String[]{"Helena", "Livia", "Gabi 2026", "Pedro", "Romulo 2006", "Gabriel"};
-    ListView lv;
+    LocationManager locationManager;
+    TextView textView;
 
-    @SuppressLint("MissingInflatedId")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         EdgeToEdge.enable(this);
         setContentView(R.layout.activity_main);
-        ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main), (v, insets) -> {
-            Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
-            v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
-            return insets;
-        });
 
-        lv = findViewById(R.id.listview);
+        TextView tv = findViewById(R.id.textView);
 
-        ArrayAdapter<String>  adapter = new ArrayAdapter<>(this,  //Adaptador de String - Classe: ArrayAdapter (Maiusculo)
-                //android.R.layout.simple_list_item_1, //Xml
-                //android.R.id.text1, //TextView
-                R.layout.item_lista,
-                R.id.tvnome,
-                nomes //Array de nomes
-        );
-        lv.setAdapter(adapter);
+        locationManager = (LocationManager) getSystemService(LOCATION_SERVICE);
 
-        //View recebe onTouch e o onClick (que pega a view inteira, mas queremos apenas um item)
-        //setOnItemClickListener - clicar em um item da lista;
-        lv.setOnItemClickListener((parent, view, position, id) -> { //crtl +espaço
-            Toast.makeText(this, nomes[position], Toast.LENGTH_LONG).show();
-        });
+        //Verificar se a permissão foi concedida
+        if (checkSelfPermission(Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED){
+            //Pedir a permissão uma vez, isso cria um problema se o usuario não permitir.
+            //Se o usuário consegue a permissão acontece isso:
+            //Definir proviner
+            Location l = locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
+            textView.setText(l.getLatitude()+ "," +l.getLongitude());
+            locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 0, location ->
+                    textView.setText(location.getLatitude() + "," + location.getLongitude()));
+
+        }else{
+            //Solicitar permissão em tempo de execução
+            requestPermissions(new String[]{
+                    Manifest.permission.ACCESS_FINE_LOCATION,
+                    Manifest.permission.ACCESS_COARSE_LOCATION
+            }, 1);
+        }
     }
-}
 
-//linha 32 - quando a aplicaçao foi carregada, na linha 28, tem um componente de listagem -listview
-//setcontentview o componente foi processado
-//activity vai ter vinculado o constrantLayout e o ListView
-//Em algum ponto na memoria Ram foi criado isso
-//Na linha 32 cria uma variavel "lv" -> fala pro proprio sistema >>Skia - verifica qual delas tem o listView
-//ListView>>>>lv aponta para ListView, agora ele ta pronto para exibir, mas nao tem dados.
-// Nome 1 2 3 4 --- array de nomes
-//Adapter é o cara que o listView chama para poder chamar o metodo "getView()" que retorna uma view --linha 34
-//this - contexto ----- para nosso app conseguir conversa com a api, é passado uma variavel chamada context que tem biblioteca chamada skia
-//O adaptador desenha os elementos na tela e tem que passar o xml
-//Adapter (context, getView(this, xml(R), textView, nomes)
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int [] grantResults){
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        if(requestCode == 1) {
+            if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                if (checkSelfPermission(Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED);
+                }
+            }
+        }
+    }
 
-//git remote add  gabi https://github.com/Gabrielle-Duarte/Dispositivos-Moveis
-//git push gabi HEAD
+
